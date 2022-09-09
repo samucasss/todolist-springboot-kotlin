@@ -10,17 +10,13 @@ import java.util.*
 
 
 @Service
-class TokenService {
-    @Value("\${jwt.expiration}")
-    private val expiration: String? = null
-
-    @Value("\${jwt.secret}")
-    private val secret: String? = null
+class TokenService(@Value("\${jwt.expiration}") private val expiration: String,
+                   @Value("\${jwt.secret}") private val secret: String) {
 
     fun generateToken(authentication: Authentication): String {
         val (id) = authentication.principal as Usuario
         val now = Date()
-        val exp = Date(now.time + expiration!!.toLong())
+        val exp = Date(now.time + expiration.toLong())
         return Jwts.builder().setIssuer("IRS").setSubject(id).setIssuedAt(Date())
             .setExpiration(exp).signWith(SignatureAlgorithm.HS256, secret).compact()
     }

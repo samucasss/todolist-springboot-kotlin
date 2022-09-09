@@ -51,7 +51,7 @@ class SecurityConfiguration(private val authenticationService: AuthenticationSer
             .and().csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and().addFilterBefore(
-                TokenAuthenticationFilter(tokenService!!, repository!!),
+                TokenAuthenticationFilter(tokenService, repository),
                 UsernamePasswordAuthenticationFilter::class.java
             )
     }

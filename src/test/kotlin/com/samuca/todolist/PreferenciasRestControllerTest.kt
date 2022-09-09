@@ -42,9 +42,9 @@ class PreferenciasRestControllerTest(@LocalServerPort private val port: Int,
         val preferenciasRest = result.body
 
         Assertions.assertNotNull(preferenciasRest)
-        Assertions.assertNotNull(preferenciasRest!!.id)
-        Assertions.assertEquals("T", preferenciasRest.tipoFiltro)
-        Assertions.assertEquals(false, preferenciasRest.done)
+        Assertions.assertNotNull(preferenciasRest?.id)
+        Assertions.assertEquals("T", preferenciasRest?.tipoFiltro)
+        Assertions.assertEquals(false, preferenciasRest?.done)
     }
 
     @Test

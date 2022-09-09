@@ -31,16 +31,19 @@ class TokenAuthenticationFilter(private val tokenService: TokenService, private 
 
     private fun authenticate(tokenFromHeader: String?) {
         val id = tokenService.getTokenId(tokenFromHeader)
-        val optionalUsuario: Optional<Usuario> = repository.findById(id!!)
+        val optionalUsuario: Optional<Usuario> = repository.findById(id)
+
         if (optionalUsuario.isPresent()) {
             val usernamePasswordAuthenticationToken =
                 UsernamePasswordAuthenticationToken(optionalUsuario.get(), null, null)
+
             SecurityContextHolder.getContext().authentication = usernamePasswordAuthenticationToken
         }
     }
 
     private fun getTokenFromHeader(request: HttpServletRequest): String? {
         val token = request.getHeader("Authorization")
+
         return if (token == null || token.isEmpty() || !token.startsWith("Bearer ")) {
             null
         } else token.substring(7)

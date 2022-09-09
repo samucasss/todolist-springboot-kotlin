@@ -22,22 +22,30 @@ class TarefaRestController(private val tarefaDao: TarefaDao) {
         val authentication: Authentication = SecurityContextHolder.getContext().authentication
         val (id) = authentication.getPrincipal() as Usuario
 
-        val inicioMenos1Dia: LocalDate = inicio.minusDays(1)
-        val tarefaList: List<Tarefa> = tarefaDao.findAllByDataBetweenAndUsuarioId(inicioMenos1Dia, fim,
-            id!!)
+        if (id != null) {
+            val inicioMenos1Dia: LocalDate = inicio.minusDays(1)
+            val tarefaList: List<Tarefa> = tarefaDao.findAllByDataBetweenAndUsuarioId(inicioMenos1Dia, fim,
+                id)
 
-        return tarefaList
+            return tarefaList
+        }
+
+        return arrayListOf()
     }
 
     @PostMapping("/tarefas")
-    fun save(@RequestBody @Valid tarefa: Tarefa): Tarefa {
+    fun save(@RequestBody @Valid tarefa: Tarefa): Tarefa? {
         val authentication: Authentication = SecurityContextHolder.getContext().authentication
         val (id) = authentication.getPrincipal() as Usuario
 
-        tarefa.usuarioId = id!!
-        val retorno: Tarefa = tarefaDao.save(tarefa)
+        if (id != null) {
+            tarefa.usuarioId = id
+            val retorno: Tarefa = tarefaDao.save(tarefa)
 
-        return retorno
+            return retorno
+        }
+
+        return null
     }
 
     @DeleteMapping("/tarefas/{id}")

@@ -16,12 +16,16 @@ class UsuarioRestController(private val usuarioDao: UsuarioDao,
                             private val passwordEncoder: PasswordEncoder) {
 
     @PostMapping("/usuarios")
-    fun save(@RequestBody @Valid usuario: Usuario?): Usuario {
-        val senha = passwordEncoder.encode(usuario!!.password)
-        usuario.senha = senha
+    fun save(@RequestBody @Valid usuario: Usuario?): Usuario? {
+        if (usuario?.password != null) {
+            val senha = passwordEncoder.encode(usuario.password)
+            usuario.senha = senha
 
-        val retorno: Usuario = usuarioDao.save(usuario)
-        return retorno.copy(senha = null)
+            val retorno: Usuario = usuarioDao.save(usuario)
+            return retorno.copy(senha = null)
+        }
+
+        return null
     }
 
     @DeleteMapping("/usuario")

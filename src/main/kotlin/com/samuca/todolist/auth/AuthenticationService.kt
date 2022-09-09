@@ -12,7 +12,7 @@ class AuthenticationService(private val usuarioDao: UsuarioDao) : UserDetailsSer
 
     @Throws(UsernameNotFoundException::class)
     override fun loadUserByUsername(username: String): UserDetails {
-        val usuario = usuarioDao!!.findByEmail(username)
+        val usuario = usuarioDao.findByEmail(username)
         if (usuario != null) {
             return usuario
         }
