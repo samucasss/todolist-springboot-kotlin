@@ -1,5 +1,5 @@
 # todolist-springboot-kotlin
-Implementação do ToDoList com spring boot usando Kotlin
+Implementação do backend da aplicação ToDoList com spring boot usando Kotlin. Tecnologias utilizadas: Kotlin, Spring boot, Authentication JWT com Spring Security e Mongo DB.
 
 ## Aplicação ToDoList:
 
